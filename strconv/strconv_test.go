@@ -62,3 +62,90 @@ func TestItoa(t *testing.T) {
 		})
 	}
 }
+
+func TestParseInt(t *testing.T) {
+	// parse int
+	intStr := "123"
+	intValue, err := strconv.ParseInt(intStr, 10, 32)
+	if err != nil {
+		t.Error("parse int have a error, ", err)
+	}
+
+	if intValue != 123 {
+		t.Error("expected 123, got", intValue)
+	}
+}
+
+func TestParseBool(t *testing.T) {
+	boolStr := "false"
+
+	boolValue, err := strconv.ParseBool(boolStr)
+
+	if err != nil {
+		t.Error("have a error, ", err)
+	}
+
+	if boolValue != false {
+		t.Errorf("expected %v, got %v", false, boolValue)
+	}
+}
+
+func TestFormat(t *testing.T) {
+	// 格式化整数
+	intValue := 123
+	intStr := strconv.FormatInt(int64(intValue), 10)
+	t.Errorf("Formatted int string: %s\n", intStr)
+
+	t.Error(strconv.FormatInt(int64(intValue), 36))
+
+	t.Error(strconv.FormatInt(int64(intValue), 2))
+
+	t.Error(strconv.FormatInt(int64(intValue), 16))
+
+	// 格式化布尔值
+	boolValue := true
+	boolStr := strconv.FormatBool(boolValue)
+	t.Errorf("Formatted bool string: %s\n", boolStr)
+
+	// 格式化浮点数
+	floatValue := 3.14
+	floatStr := strconv.FormatFloat(floatValue, 'f', -1, 64)
+	t.Errorf("Formatted float string: %s\n", floatStr)
+}
+
+func TestAppend(t *testing.T) {
+	// 追加整数到字节数组
+    num1 := 123
+    byteSlice := []byte("Number: ")
+    byteSlice = strconv.AppendInt(byteSlice, int64(num1), 10)
+    t.Errorf("Appended int: %s\n", byteSlice)
+
+    // 追加布尔值到字节数组
+    boolVal := true
+    byteSlice = []byte("Bool: ")
+    byteSlice = strconv.AppendBool(byteSlice, boolVal)
+    t.Errorf("Appended bool: %s\n", byteSlice)
+
+    // 追加浮点数到字节数组
+    floatVal := 3.14
+    byteSlice = []byte("Float: ")
+    byteSlice = strconv.AppendFloat(byteSlice, floatVal, 'f', -1, 64)
+    t.Errorf("Appended float: %s\n", byteSlice)
+
+	byteSlice = strconv.AppendQuote(byteSlice, "[]")
+	t.Errorf("%s\n", byteSlice)
+}
+
+func TestQuote(t *testing.T) {
+	str := `路多辛的, "所思所想"!`
+
+	quoted := strconv.Quote(str)
+	t.Error("Quoted: ", quoted)
+
+	unquoted, err := strconv.Unquote(quoted)
+	if err != nil {
+		t.Error("Unquote error: ", err)
+	} else {
+		t.Error("Unquoted: ", unquoted)
+	}
+}
