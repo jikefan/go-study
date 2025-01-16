@@ -44,7 +44,6 @@ func NewPayPage(typ PayType) Pay {
 func TestSimpleFactory(t *testing.T) {
 	pay := NewPayPage(AlipayType)
 	t.Error(pay.PayPage(12))
-
 	pay = NewPayPage(WechatpayType)
 	t.Error(pay.PayPage(89))
 }
