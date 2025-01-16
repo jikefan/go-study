@@ -1,19 +1,21 @@
 package designpatterns
 
-type DB struct {
+import "sync"
 
+type DB struct {
 }
 
 var db *DB
+var once sync.Once
 
 func initDB() *DB {
 	return &DB{}
 }
 
 func GetDB() *DB {
-	if db == nil {
+	once.Do(func() {
 		db = initDB()
-	}
+	})
 
 	return db
 }
